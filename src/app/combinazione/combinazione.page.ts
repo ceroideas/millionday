@@ -464,9 +464,9 @@ export class CombinazionePage implements OnInit {
       
     }
 
-    if (this.fechas.length > 1) {
+    // if (this.fechas.length > 1) {
       this.actualizar();
-    }
+    // }
 
     // this.ultimos = ultimos;
 
@@ -576,34 +576,6 @@ export class CombinazionePage implements OnInit {
 
     // console.log('validar',combinazione);
 
-    // pares
-
-    let comp = 0;
-
-    for (var i = 0; i < combinazione.length; i++) {
-      if (combinazione[i]%2 == 0) {
-        comp++;
-      }
-    }
-
-    if (comp==5) {
-      console.log('TODOS SON PARES, Naranja');
-      return this.colores = colores[1];
-    }
-
-    comp = 0;
-
-    for (var i = 0; i < combinazione.length; i++) {
-      if (combinazione[i]%2 == 1) {
-        comp++;
-      }
-    }
-
-    if (comp==5) {
-      console.log('TODOS SON IMPARES, Naranja');
-      return this.colores = colores[1];
-    }
-
 
     // impares
 
@@ -657,6 +629,34 @@ export class CombinazionePage implements OnInit {
     }
 
     if (nprimos == 4 || seguidos == 2) {
+      return this.colores = colores[1];
+    }
+
+    // pares
+
+    let comp = 0;
+
+    for (var i = 0; i < combinazione.length; i++) {
+      if (combinazione[i]%2 == 0) {
+        comp++;
+      }
+    }
+
+    if (comp==5) {
+      console.log('TODOS SON PARES, Naranja');
+      return this.colores = colores[1];
+    }
+
+    comp = 0;
+
+    for (var i = 0; i < combinazione.length; i++) {
+      if (combinazione[i]%2 == 1) {
+        comp++;
+      }
+    }
+
+    if (comp==5) {
+      console.log('TODOS SON IMPARES, Naranja');
       return this.colores = colores[1];
     }
 

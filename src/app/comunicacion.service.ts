@@ -41,8 +41,13 @@ export class ComunicacionService {
   sesion(sesion: Sesion): Observable<any>{
   	const url = 'https://axelrace.pythonanywhere.com/sesion';
   	const headers = {'Content-type': 'application/json'};
-  	//const json = JSON.stringify(sesion);
   	return this.http.post(url, sesion, {'headers': headers});
+  }
+
+  horaconexion(datos: any): Observable<any>{
+    const url = 'https://axelrace.pythonanywhere.com/horasesion';
+    const headers = {'Content-type': 'application/json'};
+    return this.http.post(url, JSON.stringify(datos), {'headers': headers});
   }
 
   actualizar_combinaciones(datos: any): Observable<any>{

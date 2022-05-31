@@ -17,11 +17,13 @@ import { Subscription } from 'rxjs';
 
 import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free/ngx';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  providers: [AdMobFree]
+  providers: [AdMobFree, InAppBrowser]
 })
 export class AppComponent {
 
@@ -41,7 +43,7 @@ export class AppComponent {
   }
 
   constructor(/*private localNotifications: LocalNotifications,*/private oneSignal: OneSignal, public nav: NavController, private service: ComunicacionService, public menuCtrl: MenuController,
-    public alertController: AlertController/*, private deeplinks: Deeplinks*/,
+    public alertController: AlertController/*, private deeplinks: Deeplinks*/, private iab: InAppBrowser,
     private platform: Platform,
     private splashScreen: SplashScreen,
     public events: EventsService,
@@ -53,6 +55,12 @@ export class AppComponent {
 
     this.initializeApp();
   }
+
+  /*pp()
+  {
+    // const browser = this.iab.create('https://paypal.me/milliondayvincicasa?locale.x=it_IT');
+    window.open('https://paypal.me/milliondayvincicasa?locale.x=it_IT','_blank');
+  }*/
 
   async error(problema) {
     const alert = await this.alertController.create({
@@ -122,7 +130,7 @@ export class AppComponent {
         id:b_id,
        // add your config here
        // for the sake of this example we will just use the test config
-       isTesting: true,
+       isTesting: false,
        autoShow: false
       };
       this.admobFree.banner.config(bannerConfig);
@@ -418,7 +426,7 @@ export class AppComponent {
 
       if (!jugada) {
 
-        console.log('nojugada',jugadas);
+        console.log('nojugada',jugadas,hoy);
 
         return false;
 
@@ -457,7 +465,7 @@ export class AppComponent {
 
       this.sorteo(puntos,saveHour);
 
-      if (puntos >= 0) {
+      if (puntos >= 2) {
 
         this.numeros.correo = localStorage.getItem('correo'),
         this.numeros.numero = jugada,
@@ -670,8 +678,8 @@ export class AppComponent {
 
     this.oneSignal.handleNotificationOpened().subscribe((jsondata) => {
       // do something when a notification is opened
-      if (jsondata.notification.payload.additionalData.type == 1) {
-        // this.verGanadores();
+      if (jsondata.notification.payload.additionalData.type == 'url') {
+        this.iab.create(jsondata.notification.payload.additionalData.url);
       }
     });
 

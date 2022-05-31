@@ -101,7 +101,7 @@ export class EstadisticasPage implements OnInit {
 
     let labels = [];
 
-    labels = ['0','','','','','','','','','','10','','','','','','','','','','20','','','','','','','','','','30','','','','','','','','','','40','','','','','45'];
+    labels = ['0','','','','','','','','','','10','','','','','','','','','','20','','','','','','','','','','30','','','','','','','','','','40'];
 
     // for (var i = 0; i <= 45; i++) {
     //   if (i%10 == 0) {
@@ -152,7 +152,7 @@ export class EstadisticasPage implements OnInit {
                         position: "top",
                         ticks:{
                           autoSkip: true,
-                          autoSkipPadding: 12,
+                          autoSkipPadding: 15,
                           fontColor: 'white',
                           fontSize: 14
                         },

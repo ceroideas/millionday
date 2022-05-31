@@ -24,6 +24,7 @@ export class HomePage {
   valor = false;
   condiciones = false;
   cn:string;
+  conexion: string = moment().format('YYYY-MM-DD HH:mm:ss');
 
   constructor(public nav: NavController, public loading: LoadingController, public alertController: AlertController, private menu: MenuController,
     private comunicacion: ComunicacionService, private router: Router, public events: EventsService, public modal: ModalController){
@@ -95,7 +96,7 @@ export class HomePage {
   }
 
   registrarse(f: NgForm){
-    if (/*this.condiciones == false || */this.valor == false || this.formulario.correo == undefined || this.cn == undefined || this.formulario.nombre == undefined || this.formulario.fecha == undefined || this.confirmar == undefined || this.formulario.sexo == undefined) {
+    if (/*this.condiciones == false || */this.valor == false || this.formulario.correo == undefined || this.cn == undefined || this.formulario.nombre == undefined/* || this.formulario.fecha == undefined*/ || this.confirmar == undefined) {
       
       this.alerta('tutti i campi sono obbligatori');
 
@@ -104,14 +105,30 @@ export class HomePage {
       if (this.cn === this.confirmar) {
 
         const encryptp = CryptoJS.AES.encrypt(this.cn, this.contrasena).toString();
+
+        console.log(this.formulario.fecha);
         
         this.formulario.password = encryptp;
-        this.formulario.fecha = moment(this.formulario.fecha).format('YYYY-MM-DD');
+        if (this.formulario.fecha == undefined) {
+          this.formulario.fecha = "";
+        }else{
+          this.formulario.fecha = moment(this.formulario.fecha).format('YYYY-MM-DD');
+        }
         this.formulario.datos = '';
+        this.formulario.conexion = this.conexion;
 
         this.loading.create().then(l => {
 
           l.present();
+
+          if (this.formulario.sexo == undefined) {
+            this.formulario.sexo = '*';
+          }
+
+          // if (this.formulario.fecha == undefined) {
+          //   this.formulario.fecha = '*';
+          // }
+          
           this.comunicacion.registros(this.formulario).subscribe((data:any) => {
             
             l.dismiss();
@@ -119,6 +136,8 @@ export class HomePage {
             if (data.respuesta === 'registrado') {
               
               this.alerta("L'utente esiste già");
+
+              this.formulario.fecha = undefined;
 
             }else{
 
@@ -150,6 +169,8 @@ export class HomePage {
                   localStorage.removeItem('horaClick');
               }
 
+              this.actualizar();
+
               this.saveOnesignal();
 
               this.router.navigateByUrl('/manual');
@@ -161,6 +182,8 @@ export class HomePage {
 
             }
           }, Error => {
+
+            this.formulario.fecha = undefined;
 
             l.dismiss();
 
@@ -183,6 +206,24 @@ export class HomePage {
 
       }
     }
+  }
+
+  actualizar(){
+
+      let conex = {
+
+                  correo: this.isesion.correo,
+                  conexion: this.conexion
+
+                };
+
+      this.comunicacion.horaconexion(conex).subscribe((data: any) => {
+
+        console.log('Conexion actualizada');}, Error => {
+
+        // return this.actualizar();
+
+      });
   }
 
   sesion(f: NgForm){
@@ -256,6 +297,8 @@ export class HomePage {
                 }else{
                     localStorage.removeItem('contador');
                 }
+
+                this.actualizar();
 
                 this.saveOnesignal();
 

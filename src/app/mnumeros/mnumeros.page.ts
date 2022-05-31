@@ -99,37 +99,9 @@ export class MnumerosPage implements OnInit {
     // console.log(this.combinacion);
     const combinazione = this.combinacion.sort((a, b) => a - b);
     const semaforo = document.getElementById("rvalidacion");
-    const colores = ['green', 'yellow', 'red'];
+    const colores = ['green', 'yellow', 'red', 'red2'];
     const primos = [1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53];
     let nprimos = 0;
-
-    // pares
-
-    let comp = 0;
-
-    for (var i = 0; i < combinazione.length; i++) {
-      if (combinazione[i]%2 == 0) {
-        comp++;
-      }
-    }
-
-    if (comp==5) {
-      console.log('TODOS SON PARES, Naranja');
-      return this.colores = colores[1];
-    }
-
-    comp = 0;
-
-    for (var i = 0; i < combinazione.length; i++) {
-      if (combinazione[i]%2 == 1) {
-        comp++;
-      }
-    }
-
-    if (comp==5) {
-      console.log('TODOS SON IMPARES, Naranja');
-      return this.colores = colores[1];
-    }
 
 
     // impares
@@ -146,7 +118,7 @@ export class MnumerosPage implements OnInit {
 
     for (let h in u200) {
       if (JSON.stringify(combinacion) == JSON.stringify(u200[h])) {
-        return this.colores = colores[2];
+        return this.colores = colores[3];
       }
     }
 
@@ -184,6 +156,34 @@ export class MnumerosPage implements OnInit {
     }
 
     if (nprimos == 4 || seguidos == 2) {
+      return this.colores = colores[1];
+    }
+
+    // pares
+
+    let comp = 0;
+
+    for (var i = 0; i < combinazione.length; i++) {
+      if (combinazione[i]%2 == 0) {
+        comp++;
+      }
+    }
+
+    if (comp==5) {
+      console.log('TODOS SON PARES, Naranja');
+      return this.colores = colores[1];
+    }
+
+    comp = 0;
+
+    for (var i = 0; i < combinazione.length; i++) {
+      if (combinazione[i]%2 == 1) {
+        comp++;
+      }
+    }
+
+    if (comp==5) {
+      console.log('TODOS SON IMPARES, Naranja');
       return this.colores = colores[1];
     }
 
